@@ -14,7 +14,7 @@ Cypress.Commands.add('selectSource', (source) => {
 
 })
 
-Cypress.Commands.add('selectdestination', (destination) => {
+Cypress.Commands.add('selectDestination', (destination) => {
     cy.get('label').contains('مقصد').click().type(destination)
     cy.get('.destination-item').contains(destination).click()
 
