@@ -8,3 +8,14 @@ Cypress.Commands.add('roundTrip', (destination) => {
 
 })
 
+Cypress.Commands.add('selectSource', (source) => {
+    cy.get('label').contains('مبدا').click().type(source)
+    cy.get('.destination-item').contains(source).click()
+
+})
+
+Cypress.Commands.add('selectdestination', (destination) => {
+    cy.get('label').contains('مقصد').click().type(destination)
+    cy.get('.destination-item').contains(destination).click()
+
+})
