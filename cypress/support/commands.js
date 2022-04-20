@@ -42,6 +42,23 @@ Cypress.Commands.add('waitForSearchComplate', () => {
 })
 
 
+Cypress.Commands.add('checkResultExist', () => {
+
+    function cr(){
+        cy.get('body')
+        .then(($body) => {
+          if ($body.find('.error-wrapper').length) {
+            cy.get('.relative ').contains('روز بعد').click()
+            cy.get('.a-loading-dots')
+            cy.get('.a-loading-dots', {timeout: 10000}).should('not.exist');
+            cr()
+        }  
+      
+        })
+    }
+    cr()
+})
+
 
 Cypress.Commands.add('dateSelector', (selectedDate) => {
     // TODO: We can convert it to two functions for start and end time 
