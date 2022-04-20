@@ -20,6 +20,21 @@ Cypress.Commands.add('selectdestination', (destination) => {
 
 })
 
+Cypress.Commands.add('numberOfPassengers', (passanger_type='بزرگسال', count=0) => {
+    var counter = count
+    cy.get('label').contains('مسافران').click()
+    function nop(){
+        cy.get('span').contains(passanger_type).parent().parent().find('.a-counter').children('button').first().click()
+        counter--;
+        if (counter > 1){
+            nop();
+        }
+    }
+    nop()
+})
+
+
+
 Cypress.Commands.add('dateSelector', (selectedDate) => {
     // TODO: We can convert it to two functions for start and end time 
 
@@ -29,7 +44,11 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
     function dateFinder(month, day){
         cy.get('.calendar').then(($calender) =>{
             if($calender.text().includes(monthNames[month])){
-                cy.get('.calendar').contains(monthNames[month]).parent().children().contains(day).click()
+                cy.get('.calendar').contains(monthNames[month]).parent().children().find('.calendar-cell').each($x =>{
+                    if(String($x.text()).split(' ')[0] == String(day)){
+                        cy.wrap($x).click()
+                    }
+                })
             }else{
                 cy.get('.datepicker-arrows').children().last().click()
                 dateFinder(month, day)
@@ -38,7 +57,7 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
     }
     
     if (selectedDate == 'today'){
-        cy.contains(' برو به امروز ').click()
+        cy.get('.is-today').click()
 
     }else if (Number.isInteger(selectedDate)){
         let STATIC_CAL_SPACE = 8
