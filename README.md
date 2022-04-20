@@ -1,5 +1,5 @@
 # AliBabaTask
 
-## Requiments 
+## Requirements 
 
 ``` npm install cypress ```
