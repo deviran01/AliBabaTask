@@ -34,6 +34,14 @@ Cypress.Commands.add('numberOfPassengers', (passanger_type='بزرگسال', cou
 })
 
 
+Cypress.Commands.add('waitForSearchComplate', () => {
+    cy.get('.loading-banner')
+    cy.get('.loading-banner', {timeout: 1150000}).should('not.exist');
+    cy.get('.tab-links', { timeout: 150000 }).should('be.visible')
+
+})
+
+
 
 Cypress.Commands.add('dateSelector', (selectedDate) => {
     // TODO: We can convert it to two functions for start and end time 
