@@ -1,4 +1,4 @@
-Cypress.Commands.add('alibabaRootUrl', () => {
+Cypress.Commands.add('aliBabaRootUrl', () => {
     cy.visit('https://www.alibaba.ir/')
 })
 
@@ -108,7 +108,7 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
                     }else{
                         cy.get('.is-today').click()
 
-                        cy.get('.calendar').contains(currentMonth).parent().children().last().children().eq( STATIC_CAL_SPACE + day ).click()
+                        cy.get('.calendar').contains(currentMonth).parent().children().last().children().eq( STATIC_CAL_SPACE + returnDate ).click()
             
                     }
 
