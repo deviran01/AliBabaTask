@@ -2,22 +2,26 @@ Cypress.Commands.add('aliBabaRootUrl', () => {
     cy.visit('https://www.alibaba.ir/')
 })
 
-Cypress.Commands.add('roundTrip', (destination) => {
-    cy.get('span').contains('یک طرفه').click()
-    cy.get('span').contains('رفت و برگشت').click()
+Cypress.Commands.add('roundTrip', (trip_type='یک طرفه') => {
+    cy.get('button').find('[data-test=title]').click()
+    cy.get('span').contains(trip_type).click()
 
 })
 
 Cypress.Commands.add('selectSource', (source) => {
     cy.get('label').contains('مبدا').click().type(source)
-    cy.get('.destination-item').contains(source).click()
+    cy.get('.destination-item').each($src =>{
+        if(String($src).trim() == source){
+            cy.wrap($src).click()
+        }
+    })
 
 })
 
 Cypress.Commands.add('selectDestination', (destination) => {
     cy.get('label').contains('مقصد').click().type(destination)
     cy.get('.destination-item').each($des =>{
-        if(String($des).trim == destination){
+        if(String($des).trim() == destination){
             cy.wrap($des).click()
         }
     })
