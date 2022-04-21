@@ -37,7 +37,7 @@ describe('Search for Domestic flight tickets', () => {
       cy.get('[data-test=domestic-tab]').click()
       cy.selectSource('تهران')
       cy.selectDestination('مشهد')
-      cy.dateSelector(3)
+      cy.dateSelector('today')
       cy.numberOfPassengers('بزرگسال', 2)
       cy.numberOfPassengers('کودک', 2)
       cy.get('[name=search]').click()
