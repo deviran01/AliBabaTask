@@ -16,7 +16,11 @@ Cypress.Commands.add('selectSource', (source) => {
 
 Cypress.Commands.add('selectDestination', (destination) => {
     cy.get('label').contains('مقصد').click().type(destination)
-    cy.get('.destination-item').contains(destination).click()
+    cy.get('.destination-item').each($des =>{
+        if(String($des).trim == destination){
+            cy.wrap($des).click()
+        }
+    })
 
 })
 
