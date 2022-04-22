@@ -6,13 +6,13 @@ describe('Search for international flight tickets', () => {
 
     })
       it('Search tickets with start and end dates', () => {
-   //     cy.roundTrip()
+        cy.roundTrip('رفت و برگشت')
         cy.selectSource('فرودگاه بین المللی امام خمینی')
         cy.selectDestination('فرودگاه صابیحا گوکچن')
         cy.dateSelector('2/2-2/7')
         cy.numberOfPassengers('بزرگسال', 2)
         cy.numberOfPassengers('کودک', 2)
-        cy.get('[name=search]').click()
+        cy.get("button").contains('جستجو').click()
         cy.waitForSearchComplate()
         cy.checkResultExist()
         cy.contains('تماس با ما').scrollIntoView().should('be.visible').click()
@@ -20,13 +20,13 @@ describe('Search for international flight tickets', () => {
       })
   
       it('Search tickets with time period ', () => {
-   //     cy.roundTrip()
+        cy.roundTrip('رفت و برگشت')
         cy.selectSource('فرودگاه بین المللی امام خمینی')
         cy.selectDestination('فرودگاه صابیحا گوکچن')
         cy.dateSelector(3)
         cy.numberOfPassengers('بزرگسال', 2)
         cy.numberOfPassengers('کودک', 2)
-        cy.get('[name=search]').click()
+        cy.get("button").contains('جستجو').click()
         cy.waitForSearchComplate()
         cy.checkResultExist()
         cy.contains('تماس با ما').scrollIntoView().should('be.visible').click()
@@ -34,12 +34,13 @@ describe('Search for international flight tickets', () => {
     })
 
     it('Search today tickets ', () => {
+      cy.roundTrip('یک طرفه')
       cy.selectSource('فرودگاه بین المللی امام خمینی')
       cy.selectDestination('فرودگاه صابیحا گوکچن')
       cy.dateSelector('today')
       cy.numberOfPassengers('بزرگسال', 2)
       cy.numberOfPassengers('کودک', 2)
-      cy.get('[name=search]').click()
+      cy.get("button").contains('جستجو').click()
       cy.waitForSearchComplate()
       cy.checkResultExist()
       cy.contains('تماس با ما').scrollIntoView().should('be.visible').click()

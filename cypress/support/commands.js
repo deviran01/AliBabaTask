@@ -1,38 +1,49 @@
 Cypress.Commands.add('aliBabaRootUrl', () => {
-    cy.visit('https://www.alibaba.ir/')
+    cy.visit('https://www.alibaba.ir/', {timeout: 10000})
 })
 
 Cypress.Commands.add('roundTrip', (trip_type='یک طرفه') => {
-    cy.get('button').find('[data-test=title]').click()
-    cy.get('span').contains(trip_type).click()
+    cy.get('button').find('[data-test=title]').each(($elem) =>{
+        if($elem.text() === "یک طرفه"){
+            cy.wrap($elem).click()
+            cy.get('span').contains(trip_type).click()
+        }else if($elem.text() === "رفت و برگشت"){
+            cy.wrap($elem).click()
+            cy.get('span').contains(trip_type).click()
+        }
+    })
 
 })
 
 Cypress.Commands.add('selectSource', (source) => {
     cy.get('label').contains('مبدا').click().type(source)
+    cy.get('.v-dropdown > .a-card', {timeout: 15000})
+    cy.wait(1000)
     cy.get('.destination-item').each($src =>{
-        if(String($src).trim() == source){
+        if(String($src.text()).search(source) > -1){
             cy.wrap($src).click()
         }
     })
-
+    cy.wait(1000)
 })
 
 Cypress.Commands.add('selectDestination', (destination) => {
     cy.get('label').contains('مقصد').click().type(destination)
+    cy.get('.v-dropdown > .a-card', {timeout: 15000})
+    cy.wait(1000)
     cy.get('.destination-item').each($des =>{
-        if(String($des).trim() == destination){
+        if(String($des.text()).search(destination) > -1){
             cy.wrap($des).click()
         }
     })
-
+    cy.wait(1000)
 })
 
-Cypress.Commands.add('numberOfPassengers', (passanger_type='بزرگسال', count=0) => {
+Cypress.Commands.add('numberOfPassengers', (passenger_type='بزرگسال', count=0) => {
     var counter = count
     cy.get('label').contains('مسافران').click()
     function nop(){
-        cy.get('span').contains(passanger_type).parent().parent().find('.a-counter').children('button').first().click()
+        cy.get('span').contains(passenger_type).parent().parent().find('.a-counter').children('button').first().click()
         counter--;
         if (counter > 1){
             nop();
@@ -44,8 +55,8 @@ Cypress.Commands.add('numberOfPassengers', (passanger_type='بزرگسال', cou
 
 Cypress.Commands.add('waitForSearchComplate', () => {
     cy.get('.loading-banner')
-    cy.get('.loading-banner', {timeout: 1150000}).should('not.exist');
-    cy.get('.tab-links', { timeout: 150000 }).should('be.visible')
+    cy.get('.loading-banner', {timeout: 20000}).should('not.exist');
+    cy.get('.tab-links', { timeout: 20000 }).should('be.visible')
 
 })
 
@@ -72,13 +83,13 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
     // TODO: We can convert it to two functions for start and end time 
 
     const monthNames = ["فروردین", "اردیبهشت", "خرداد", "تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
-    cy.get('label').contains('تاریخ رفت').click()
+    // cy.get('label').contains('تاریخ رفت').click()
 
     function dateFinder(month, day){
         cy.get('.calendar').then(($calender) =>{
             if($calender.text().includes(monthNames[month])){
                 cy.get('.calendar').contains(monthNames[month]).parent().children().find('.calendar-cell').each($x =>{
-                    if(String($x.text()).split(' ')[0] == String(day)){
+                    if(String($x.text()).split(' ')[0] === String(day)){
                         cy.wrap($x).click()
                     }
                 })
@@ -89,7 +100,7 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
         })
     }
     
-    if (selectedDate == 'today'){
+    if (selectedDate === 'today'){
         cy.get('.is-today').click()
 
     }else if (Number.isInteger(selectedDate)){
@@ -104,10 +115,9 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
 
                 cy.get('.calendar').contains(currentMonth).parent().children().last().children().last().then(($lsom) => {
                     var lastDayOfMonth = Number($lsom.text().replace('-', '').trim())
-
+                    var currentMonthIndex = monthNames.indexOf(currentMonth);
                     if(returnDate > lastDayOfMonth){
                         returnDate = returnDate - lastDayOfMonth
-                        var currentMonthIndex = monthNames.indexOf(currentMonth);
                         cy.log(currentMonthIndex)
                         cy.get('.is-today').click()
 
@@ -115,8 +125,9 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
             
                     }else{
                         cy.get('.is-today').click()
+                        dateFinder(currentMonthIndex , returnDate)
 
-                        cy.get('.calendar').contains(currentMonth).parent().children().last().children().eq( STATIC_CAL_SPACE + returnDate ).click()
+                        // cy.get('.calendar').contains(currentMonth).parent().children().last().children().eq( STATIC_CAL_SPACE + returnDate ).click()
             
                     }
 
