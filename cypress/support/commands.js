@@ -15,8 +15,8 @@ Cypress.Commands.add('roundTrip', (trip_type='یک طرفه') => {
 
 })
 
-Cypress.Commands.add('selectSource', (source) => {
-    cy.get('label').contains('مبدا').click().type(source+'{enter}')
+Cypress.Commands.add('selectSource', (source, source_label='مبدا') => {
+    cy.get('label').contains(source_label).click().type(source+'{enter}')
     cy.get('.destination-group', {timeout: 50000}).should('not.exist');
     cy.get('.v-dropdown > .a-card', {timeout: 15000})
     cy.wait(1000)
@@ -28,8 +28,8 @@ Cypress.Commands.add('selectSource', (source) => {
     cy.wait(1000)
 })
 
-Cypress.Commands.add('selectDestination', (destination) => {
-    cy.get('label').contains('مقصد').click().type(destination)
+Cypress.Commands.add('selectDestination', (destination, destination_label='مقصد') => {
+    cy.get('label').contains(destination_label).click().type(destination)
     cy.get('.destination-group', {timeout: 50000}).should('not.exist');
     cy.get('.v-dropdown > .a-card', {timeout: 15000})
     cy.get('.destination-item').each($des =>{
