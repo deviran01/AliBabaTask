@@ -16,7 +16,8 @@ Cypress.Commands.add('roundTrip', (trip_type='یک طرفه') => {
 })
 
 Cypress.Commands.add('selectSource', (source) => {
-    cy.get('label').contains('مبدا').click().type(source)
+    cy.get('label').contains('مبدا').click().type(source+'{enter}')
+    cy.get('.destination-group', {timeout: 50000}).should('not.exist');
     cy.get('.v-dropdown > .a-card', {timeout: 15000})
     cy.wait(1000)
     cy.get('.destination-item').each($src =>{
@@ -29,8 +30,8 @@ Cypress.Commands.add('selectSource', (source) => {
 
 Cypress.Commands.add('selectDestination', (destination) => {
     cy.get('label').contains('مقصد').click().type(destination)
+    cy.get('.destination-group', {timeout: 50000}).should('not.exist');
     cy.get('.v-dropdown > .a-card', {timeout: 15000})
-    cy.wait(1000)
     cy.get('.destination-item').each($des =>{
         if(String($des.text()).search(destination) > -1){
             cy.wrap($des).click()
@@ -38,6 +39,7 @@ Cypress.Commands.add('selectDestination', (destination) => {
     })
     cy.wait(1000)
 })
+
 
 Cypress.Commands.add('numberOfPassengers', (passenger_type='بزرگسال', count=0) => {
     var counter = count
@@ -54,10 +56,10 @@ Cypress.Commands.add('numberOfPassengers', (passenger_type='بزرگسال', cou
 
 
 Cypress.Commands.add('waitForSearchComplate', () => {
-    cy.get('.loading-banner')
-    cy.get('.loading-banner', {timeout: 20000}).should('not.exist');
-    cy.get('.tab-links', { timeout: 20000 }).should('be.visible')
-
+    // cy.get('.sticky-sidebar__inner')
+    // cy.get('.loading-banner', {timeout: 20000}).should('not.exist');
+    // cy.get('.tab-links', { timeout: 20000 }).should('be.visible')
+    cy.contains('مرتب سازی').should('be.visible')
 })
 
 
@@ -172,3 +174,4 @@ Cypress.Commands.add('dateSelector', (selectedDate) => {
 
     
 })
+
