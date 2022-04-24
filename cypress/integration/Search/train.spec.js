@@ -15,7 +15,8 @@ describe('Search for international flight tickets', () => {
         cy.get("button").contains('جستجو').click()
         cy.waitForSearchComplate()
         cy.checkResultExist()
-        cy.contains('تماس با ما').scrollIntoView().should('be.visible').click()
+        cy.window().scrollTo('bottom')
+        cy.contains('تماس با ما').click()
 
     })
 
@@ -29,7 +30,8 @@ describe('Search for international flight tickets', () => {
         cy.get("button").contains('جستجو').click()
         cy.waitForSearchComplate()
         cy.checkResultExist()
-        cy.contains('تماس با ما').scrollIntoView().should('be.visible').click()
+        cy.window().scrollTo('bottom')
+        cy.contains('تماس با ما').click()
 
     })
 
@@ -43,7 +45,8 @@ describe('Search for international flight tickets', () => {
         cy.get("button").contains('جستجو').click()
         cy.waitForSearchComplate()
         cy.checkResultExist()
-        cy.contains('تماس با ما').scrollIntoView().should('be.visible').click()
+        cy.window().scrollTo('bottom')
+        cy.contains('تماس با ما').click()
 
     })
 
